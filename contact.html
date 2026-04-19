@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Metro Maali</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="contact-pg">
+
+
+<div id="header"></div>
+
+<section class="contact-hero">
+  <h1>Get in Touch with Metro Maali</h1>
+</section>
+
+<div class="container">
+  <div class="contact-info">
+    <h2>Contact Details</h2>
+    <p><strong>📍 Location:</strong> Rohini, Delhi</p>
+    <p><strong>📞 Phone:</strong> 8586913614</p>
+    <p><strong>🌐 Website:</strong> metromaali.com</p>
+    <p><strong>⏰ Working Hours:</strong> 9 AM – 5 PM</p>
+  </div>
+
+  <div class="contact-form">
+    <h2>Send a Message</h2>
+    <form id="contactForm" action="https://formspree.io/f/mjgjwzjj" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<!-- Thank You Modal -->
+<div id="thankYouModal" class="modal">
+  <div class="modal-content">
+    <h2>Thank You!</h2>
+    <p>Your message has been sent successfully. We'll get back to you soon!</p>
+    <button class="modal-btn" onclick="closeModal()">Okay</button>
+  </div>
+</div>
+
+<script>
+  function loadComponent(id, file) {
+    fetch(file)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById(id).innerHTML = data;
+      })
+      .catch(error => console.error('Error loading ' + file, error));
+  }
+
+  loadComponent('header', 'header.html');
+  loadComponent('footer', 'footer.html');
+
+  // Form submission handler
+  const contactForm = document.getElementById('contactForm');
+  
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+      const response = await fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        // Show thank you modal
+        document.getElementById('thankYouModal').style.display = 'flex';
+        // Clear the form
+        contactForm.reset();
+      } else {
+        alert('There was an error submitting the form. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('There was an error submitting the form. Please try again.');
+    }
+  });
+
+  function closeModal() {
+    document.getElementById('thankYouModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
